@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AZ-305 Exam Flashcards</title>
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2ecc71;
+            --background-color: #f5f5f5;
+            --card-color: #ffffff;
+            --text-color: #333333;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--background-color);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        h1 {
+            color: var(--primary-color);
+            margin-bottom: 30px;
+        }
+        
+        .app-info {
+            margin: 20px 0;
+            color: var(--text-color);
+            font-size: 1.1rem;
+        }
+        
+        .flashcard-container {
+            perspective: 1000px;
+            margin-bottom: 30px;
+            height: 300px;
+            width: 100%;
+        }
+        
+        .flashcard {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        
+        .flashcard.flipped {
+            transform: rotateY(180deg);
+        }
+        
+        .flashcard-front, .flashcard-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            box-sizing: border-box;
+            border-radius: 10px;
+            background-color: var(--card-color);
+            color: var(--text-color);
+            font-size: 1.5rem;
+            text-align: center;
+            overflow-y: auto;
+        }
+        
+        .flashcard-back {
+            transform: rotateY(180deg);
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #2980b9;
+        }
+        
+        .progress {
+            margin-top: 20px;
+            color: var(--text-color);
+            font-size: 1rem;
+        }
+        
+        .card-counter {
+            margin-bottom: 10px;
+        }
+        
+        @media (max-width: 600px) {
+            .flashcard-container {
+                height: 250px;
+            }
+            
+            .flashcard-front, .flashcard-back {
+                font-size: 1.2rem;
+            }
+        }
+        
+        .card-side-indicator {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: rgba(0, 0, 0, 0.1);
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>AZ-305: Designing Microsoft Azure Infrastructure Solutions</h1>
+        
+        <div class="app-info">
+            <p>Study for your Azure Solutions Architect Expert certification with these flashcards. Click the card to flip between question and answer.</p>
+        </div>
+        
+        <div class="flashcard-container">
+            <div class="flashcard" id="flashcard">
+                <div class="flashcard-front">
+                    <span class="card-side-indicator">Question</span>
+                    <div id="question">Loading flashcards...</div>
+                </div>
+                <div class="flashcard-back">
+                    <span class="card-side-indicator">Answer</span>
+                    <div id="answer"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <button id="prevBtn">Previous</button>
+            <button id="flipBtn">Flip Card</button>
+            <button id="nextBtn">Next</button>
+        </div>
+        
+        <div class="progress">
+            <div class="card-counter"><span id="currentCard">0</span> / <span id="totalCards">0</span></div>
+        </div>
+    </div>
+
+    <script>
+        // DOM Elements
+        const flashcard = document.getElementById('flashcard');
+        const questionElement = document.getElementById('question');
+        const answerElement = document.getElementById('answer');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const flipBtn = document.getElementById('flipBtn');
+        const currentCardElement = document.getElementById('currentCard');
+        const totalCardsElement = document.getElementById('totalCards');
+        
+        // Flashcard data and state
+        let flashcards = [];
+        let currentCardIndex = 0;
+        
+        // Direct load of flashcards data
+        const flashcardsData = [
+          {
+            "question": "What are the four main skill areas measured in the AZ-305 exam?",
+            "answer": "1. Design identity, governance, and monitoring solutions (25-30%)\n2. Design data storage solutions (24%)\n3. Design business continuity solutions (17%)\n4. Design infrastructure solutions (33%)"
+          },
+          {
+            "question": "What is Azure role-based access control (Azure RBAC) used for?",
+            "answer": "Azure RBAC is used to secure resources by managing who has access to Azure resources, what they can do with those resources, and what areas they have access to. It provides fine-grained access management for Azure resources."
+          },
+          {
+            "question": "What is the purpose of Azure Policy?",
+            "answer": "Azure Policy helps enforce organizational standards and assess compliance at scale. It provides governance and resource consistency with regulatory compliance, security, cost, and management."
+          },
+          {
+            "question": "What is the difference between Azure Monitor and Azure Log Analytics?",
+            "answer": "Azure Monitor collects and analyzes data from applications and resources, providing visibility across environments. Log Analytics is a feature of Azure Monitor that allows you to query and analyze log data using a powerful query language."
+          },
+          {
+            "question": "What is Azure Sentinel?",
+            "answer": "Azure Sentinel is a cloud-native security information and event management (SIEM) and security orchestration automated response (SOAR) solution. It provides intelligent security analytics and threat intelligence across the enterprise."
+          },
+          {
+            "question": "What are the access tiers available in Azure Blob Storage?",
+            "answer": "Hot tier: Optimized for frequently accessed data\nCool tier: Optimized for infrequently accessed data (at least 30 days)\nArchive tier: Optimized for rarely accessed data (at least 180 days) with flexible latency requirements"
+          },
+          {
+            "question": "What is the difference between Azure Files and Azure Blob Storage?",
+            "answer": "Azure Files offers fully managed file shares accessible via SMB or NFS protocols, similar to traditional file servers. Azure Blob Storage is optimized for storing massive amounts of unstructured data as objects/blobs, accessed through REST APIs."
+          },
+          {
+            "question": "What is the purpose of Azure Site Recovery?",
+            "answer": "Azure Site Recovery ensures business continuity by keeping apps and workloads running during outages. It replicates workloads from a primary site to a secondary location and enables failover when an outage occurs."
+          },
+          {
+            "question": "What are Recovery Time Objective (RTO) and Recovery Point Objective (RPO)?",
+            "answer": "RTO is the maximum acceptable time to restore service after a disruption. RPO is the maximum acceptable period during which data might be lost due to a disruption. Both are key metrics in disaster recovery planning."
+          },
+          {
+            "question": "What is Azure Backup?",
+            "answer": "Azure Backup is a cost-effective, secure solution that integrates with on-premises and Azure deployments to protect your data and applications from corruption, deletion, and disaster."
+          },
+          {
+            "question": "What is the difference between availability sets and availability zones in Azure?",
+            "answer": "Availability sets protect against hardware failures within a datacenter by distributing VMs across multiple fault domains and update domains. Availability zones protect against entire datacenter failures by placing resources in physically separate zones within the same region."
+          },
+          {
+            "question": "What is the purpose of Azure Virtual Network (VNet)?",
+            "answer": "Azure Virtual Network enables Azure resources to securely communicate with each other, the internet, and on-premises networks. VNets provide isolation, segmentation, and filtering of network traffic."
+          },
+          {
+            "question": "What is the difference between Azure App Service, Azure Functions, and Azure Container Instances?",
+            "answer": "Azure App Service is a PaaS for hosting web apps, RESTful APIs, and mobile backends. Azure Functions is a serverless compute service for event-driven code execution. Azure Container Instances offers the fastest and simplest way to run containerized applications without managing infrastructure."
+          },
+          {
+            "question": "What is Azure ExpressRoute?",
+            "answer": "Azure ExpressRoute provides private connections between Azure datacenters and on-premises infrastructure or colocation environments. ExpressRoute connections don't go over the public internet, offering more reliability, faster speeds, and lower latencies."
+          },
+          {
+            "question": "What is the purpose of Azure Front Door?",
+            "answer": "Azure Front Door is a global, scalable entry-point service that enables you to build, operate, and scale your web application. It provides global HTTP/HTTPS load balancing, application acceleration, and web application firewall (WAF) protection."
+          },
+          {
+            "question": "What is Azure Data Factory used for?",
+            "answer": "Azure Data Factory is a cloud-based data integration service for creating data-driven workflows to orchestrate and automate data movement and transformation. It can load data from various sources, transform it based on rules, and publish it to data stores."
+          },
+          {
+            "question": "What is the difference between Azure Cosmos DB and Azure SQL Database?",
+            "answer": "Azure Cosmos DB is a globally distributed, multi-model database service designed for low latency and elastic scalability. Azure SQL Database is a fully managed relational database service based on SQL Server, optimized for structured data and complex queries."
+          },
+          {
+            "question": "What networking components would you use to establish secure connectivity between on-premises and Azure networks?",
+            "answer": "VPN Gateway for encrypted IPsec connections over the internet, ExpressRoute for private connections that don't traverse the internet, and Network Security Groups (NSGs) to filter traffic. Azure Firewall can provide additional security."
+          },
+          {
+            "question": "What is the primary purpose of Azure Active Directory?",
+            "answer": "Azure Active Directory (Azure AD) is Microsoft's cloud-based identity and access management service. It enables users to sign in and access resources in Microsoft cloud applications, third-party cloud applications, and on-premises applications."
+          },
+          {
+            "question": "What is Azure Traffic Manager?",
+            "answer": "Azure Traffic Manager is a DNS-based traffic load balancer that enables you to distribute traffic to your applications across global Azure regions. It provides high availability and responsiveness by directing traffic to the closest or best-performing endpoint."
+          },
+          {
+            "question": "What is Azure Key Vault used for?",
+            "answer": "Azure Key Vault is a cloud service for securely storing and accessing secrets (API keys, passwords), cryptographic keys, and certificates. It helps protect secrets and keys used by cloud applications and services."
+          },
+          {
+            "question": "What factors should you consider when choosing between Azure SQL Database, Azure SQL Managed Instance, and SQL Server on Azure VMs?",
+            "answer": "Consider migration effort, feature compatibility (SQL Server features required), administration level needed, total cost of ownership, service tier requirements, and business continuity needs."
+          },
+          {
+            "question": "What is the Well-Architected Framework for Azure?",
+            "answer": "The Azure Well-Architected Framework is a set of guiding tenets for building high-quality solutions. It includes five pillars: Cost Optimization, Operational Excellence, Performance Efficiency, Reliability, and Security."
+          },
+          {
+            "question": "What is the difference between Azure AD Connect and Azure AD Connect Cloud Sync?",
+            "answer": "Azure AD Connect is the traditional synchronization tool that runs on-premises, while Azure AD Connect Cloud Sync is a lightweight agent-based approach where the synchronization engine runs in the cloud, reducing on-premises footprint."
+          },
+          {
+            "question": "What are the main components of Azure Kubernetes Service (AKS)?",
+            "answer": "AKS consists of the Kubernetes control plane (managed by Azure), node pools (VMs running containerized applications), virtual networks for communication, and storage. It includes components like the API server, scheduler, etcd, and the kubelet."
+          },
+          {
+            "question": "What is the purpose of Azure Managed Identities?",
+            "answer": "Managed Identities provide Azure services with an automatically managed identity in Azure AD. Applications can use this identity to authenticate to any service that supports Azure AD authentication without managing credentials."
+          },
+          {
+            "question": "How does Azure Storage redundancy work, and what options are available?",
+            "answer": "Redundancy options include: Locally Redundant Storage (LRS), Zone-Redundant Storage (ZRS), Geo-Redundant Storage (GRS), and Geo-Zone-Redundant Storage (GZRS). Each provides increasingly higher durability by replicating data across physical locations."
+          },
+          {
+            "question": "What is the purpose of Azure DevOps and GitHub in a cloud architecture solution?",
+            "answer": "Azure DevOps and GitHub provide version control, CI/CD pipelines, project tracking, and collaboration tools to implement DevOps practices. They enable automated deployment of infrastructure as code and application updates."
+          },
+          {
+            "question": "What are Azure Blueprints?",
+            "answer": "Azure Blueprints enable standardizing cloud subscriptions or environments by packaging key artifacts like role assignments, policies, ARM templates, and resource groups into a reusable blueprint definition."
+          },
+          {
+            "question": "What is the Cloud Adoption Framework for Azure?",
+            "answer": "The Cloud Adoption Framework is a collection of documentation, implementation guidance, best practices, and tools that help customers create and implement business and technology strategies for the cloud."
+          },
+          {
+            "question": "How do you secure API access in Azure?",
+            "answer": "Use Azure API Management to secure APIs with keys, certificates, and OAuth. Implement Azure AD to add authentication. Use Application Gateway and WAF for HTTP filtering. Network security groups and private endpoints can restrict network access."
+          },
+          {
+            "question": "What is the difference between Azure Firewall and Network Security Groups (NSGs)?",
+            "answer": "NSGs are stateful packet filters that control inbound and outbound traffic at the network interface and subnet level. Azure Firewall is a centralized, managed network security service that provides application and network level protection across subscriptions and VNets."
+          },
+          {
+            "question": "How do you implement multi-factor authentication (MFA) in Azure?",
+            "answer": "MFA in Azure is implemented through Azure AD Conditional Access policies or Security Defaults. Options include the Microsoft Authenticator app, OATH hardware tokens, SMS, or phone calls, providing an additional layer of security beyond passwords."
+          },
+          {
+            "question": "What is the difference between Azure Load Balancer and Application Gateway?",
+            "answer": "Azure Load Balancer operates at transport layer (Layer 4) distributing traffic based on IP address and port. Application Gateway is a web traffic load balancer operating at application layer (Layer 7), capable of routing based on URL paths and implementing WAF."
+          },
+          {
+            "question": "What criteria should you consider when selecting a region for Azure resources?",
+            "answer": "Consider: service availability in the region, proximity to users, data residency requirements, disaster recovery needs, pricing differences, and availability zones support."
+          },
+          {
+            "question": "What is Azure Private Link used for?",
+            "answer": "Azure Private Link enables access to Azure PaaS services and Azure-hosted customer/partner services over a private endpoint in your virtual network. Traffic between your network and the service traverses the Microsoft backbone network, eliminating exposure to the public internet."
+          },
+          {
+            "question": "What is Azure Bastion and when would you use it?",
+            "answer": "Azure Bastion is a fully managed PaaS service that provides secure RDP and SSH access to virtual machines without exposing public IP addresses. Use it when you need secure administrative access to VMs without configuring jump servers, VPNs, or exposing VMs directly."
+          },
+          {
+            "question": "What is the difference between Azure Synapse Analytics and Azure Databricks?",
+            "answer": "Azure Synapse Analytics is an integrated analytics service combining data warehousing and big data analytics. Azure Databricks is an Apache Spark-based analytics platform optimized for the Microsoft Azure cloud. Synapse focuses on data warehousing while Databricks excels at data science and engineering."
+          },
+          {
+            "question": "What tools are available for monitoring costs in Azure?",
+            "answer": "Azure Cost Management, Azure Advisor (cost recommendations), Azure Budgets (set spending thresholds), Azure Cost Analysis (detailed cost breakdown), and Azure Price Calculator (estimate costs before deployment)."
+          },
+          {
+            "question": "What is the purpose of Azure Kubernetes Service (AKS)?",
+            "answer": "AKS simplifies deploying, managing, and scaling containerized applications using Kubernetes. It offers serverless Kubernetes, an integrated CI/CD experience, and enterprise security features, while handling critical tasks like health monitoring and maintenance."
+          }
+        ];
+        
+        // Functions
+        function loadFlashcards(cards) {
+            flashcards = cards;
+            currentCardIndex = 0;
+            totalCardsElement.textContent = flashcards.length;
+            updateCard();
+            updateButtonState();
+        }
+        
+        function updateCard() {
+            if (flashcards.length === 0) {
+                questionElement.textContent = "No flashcards available";
+                answerElement.textContent = "";
+                currentCardElement.textContent = "0";
+                return;
+            }
+            
+            const card = flashcards[currentCardIndex];
+            questionElement.textContent = card.question;
+            answerElement.textContent = card.answer;
+            currentCardElement.textContent = currentCardIndex + 1;
+            
+            // Reset card to question side when changing cards
+            flashcard.classList.remove('flipped');
+        }
+        
+        function flipCard() {
+            flashcard.classList.toggle('flipped');
+        }
+        
+        function showNextCard() {
+            if (currentCardIndex < flashcards.length - 1) {
+                currentCardIndex++;
+                updateCard();
+                updateButtonState();
+            }
+        }
+        
+        function showPreviousCard() {
+            if (currentCardIndex > 0) {
+                currentCardIndex--;
+                updateCard();
+                updateButtonState();
+            }
+        }
+        
+        function updateButtonState() {
+            prevBtn.disabled = currentCardIndex === 0 || flashcards.length === 0;
+            nextBtn.disabled = currentCardIndex === flashcards.length - 1 || flashcards.length === 0;
+            flipBtn.disabled = flashcards.length === 0;
+            
+            // Visual feedback for disabled buttons
+            if (prevBtn.disabled) {
+                prevBtn.style.opacity = 0.5;
+            } else {
+                prevBtn.style.opacity = 1;
+            }
+            
+            if (nextBtn.disabled) {
+                nextBtn.style.opacity = 0.5;
+            } else {
+                nextBtn.style.opacity = 1;
+            }
+            
+            if (flipBtn.disabled) {
+                flipBtn.style.opacity = 0.5;
+            } else {
+                flipBtn.style.opacity = 1;
+            }
+        }
+        
+        // Event Listeners
+        flashcard.addEventListener('click', flipCard);
+        prevBtn.addEventListener('click', showPreviousCard);
+        nextBtn.addEventListener('click', showNextCard);
+        flipBtn.addEventListener('click', flipCard);
+        
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', function() {
+            loadFlashcards(flashcardsData);
+        });
+        
+        // Also initialize if DOM is already loaded
+        if (document.readyState === 'complete' || document.readyState === 'interactive') {
+            loadFlashcards(flashcardsData);
+        }
+    </script>
+</body>
+</html>

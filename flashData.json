@@ -1,0 +1,62 @@
+[
+  {
+    "question": "What is the capital of France?",
+    "answer": "Paris"
+  },
+  {
+    "question": "What is the largest planet in our solar system?",
+    "answer": "Jupiter"
+  },
+  {
+    "question": "What is the chemical symbol for gold?",
+    "answer": "Au"
+  },
+  {
+    "question": "Who wrote 'Romeo and Juliet'?",
+    "answer": "William Shakespeare"
+  },
+  {
+    "question": "What is the square root of 64?",
+    "answer": "8"
+  },
+  {
+    "question": "What is the main component of the Earth's atmosphere?",
+    "answer": "Nitrogen (about 78%)"
+  },
+  {
+    "question": "What year did the United States declare independence?",
+    "answer": "1776"
+  },
+  {
+    "question": "What is the value of π (pi) to two decimal places?",
+    "answer": "3.14"
+  },
+  {
+    "question": "Who painted the Mona Lisa?",
+    "answer": "Leonardo da Vinci"
+  },
+  {
+    "question": "What is the boiling point of water in Celsius?",
+    "answer": "100°C"
+  },
+  {
+    "question": "What is the capital of Japan?",
+    "answer": "Tokyo"
+  },
+  {
+    "question": "Who developed the theory of relativity?",
+    "answer": "Albert Einstein"
+  },
+  {
+    "question": "What is the closest star to Earth?",
+    "answer": "The Sun"
+  },
+  {
+    "question": "Which planet is known as the Red Planet?",
+    "answer": "Mars"
+  },
+  {
+    "question": "What is the largest ocean on Earth?",
+    "answer": "The Pacific Ocean"
+  }
+]
