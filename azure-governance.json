@@ -1,0 +1,162 @@
+[
+  {
+    "question": "What is the maximum number of policy definitions that can be included in a single Azure Policy initiative?",
+    "answer": "A single Azure Policy initiative can contain up to 1,000 policy definitions."
+  },
+  {
+    "question": "In Azure Policy, what is the required property in every policy definition that specifies the evaluation logic?",
+    "answer": "The 'policyRule' property is required in every policy definition and contains the evaluation logic with 'if' and 'then' conditions."
+  },
+  {
+    "question": "What Azure RBAC role is required to create and assign Azure Policies at the subscription level?",
+    "answer": "The 'Resource Policy Contributor' role is required to create and assign Azure Policies at the subscription level."
+  },
+  {
+    "question": "What is the Azure CLI command to evaluate policy compliance for a specific scope?",
+    "answer": "az policy state list --resource-group <resource-group-name> --query \"[?complianceState=='NonCompliant']\""
+  },
+  {
+    "question": "In Azure Blueprints, what property determines whether a resource group artifact will be deleted when the blueprint assignment is deleted?",
+    "answer": "The 'removeResourcesOnDelete' property in the resource group artifact determines whether resources are deleted when the blueprint assignment is deleted."
+  },
+  {
+    "question": "What is the PowerShell cmdlet to create a new Azure Policy definition?",
+    "answer": "New-AzPolicyDefinition -Name 'PolicyName' -DisplayName 'Display Name' -Policy 'policy.json'"
+  },
+  {
+    "question": "In Azure Policy's DeployIfNotExists effect, what is the name of the deployment that gets created?",
+    "answer": "The deployment is automatically named with the pattern: 'pid-{guid}' where guid is a unique identifier for the policy deployment."
+  },
+  {
+    "question": "What is the maximum retention period for Azure Policy compliance data in activity logs?",
+    "answer": "Azure Policy compliance data is retained in activity logs for 90 days."
+  },
+  {
+    "question": "In Azure Blueprints, what is the required permission to assign a blueprint to a subscription?",
+    "answer": "The user must have 'Microsoft.Blueprint/blueprintAssignments/write' permission, which is available in the Blueprint Contributor role."
+  },
+  {
+    "question": "What Azure Policy function evaluates if a value exists in a given list of values?",
+    "answer": "The 'in' function evaluates if a value exists in a given list of values, used as: \"field\": \"location\", \"in\": [\"eastus\", \"westus\"]"
+  },
+  {
+    "question": "How many Management Groups can exist in a single Azure AD tenant?",
+    "answer": "A single Azure AD tenant can have up to 10,000 Management Groups in total."
+  },
+  {
+    "question": "What is the REST API version used for Azure Policy Compliance State queries?",
+    "answer": "The REST API version is '2019-10-01' for Azure Policy state queries: /providers/Microsoft.PolicyInsights/policyStates/latest/queryResults?api-version=2019-10-01"
+  },
+  {
+    "question": "In Azure Policy, what is the alias for evaluating the VM publisher property?",
+    "answer": "The alias for VM publisher is 'Microsoft.Compute/virtualMachines/imagePublisher'"
+  },
+  {
+    "question": "What is the maximum depth of Management Group hierarchy in Azure?",
+    "answer": "The maximum depth of Management Group hierarchy is 6 levels (not including the tenant root group and subscription level)."
+  },
+  {
+    "question": "In Azure Blueprints, what is the property name that specifies parameter values when assigning a blueprint?",
+    "answer": "The 'parameters' property is used to specify parameter values when assigning a blueprint through ARM template or REST API."
+  },
+  {
+    "question": "What Azure Policy mode should be used for evaluating Key Vault resources?",
+    "answer": "Use 'Microsoft.KeyVault.Data' mode for evaluating Key Vault data plane operations like keys, secrets, and certificates."
+  },
+  {
+    "question": "What is the ARM template property for excluding specific subscriptions from a Management Group policy assignment?",
+    "answer": "The 'notScopes' property in the policy assignment ARM template excludes specific subscriptions from evaluation."
+  },
+  {
+    "question": "In Azure Policy, what operator is used to check if a field contains a specific substring?",
+    "answer": "The 'contains' operator is used: \"field\": \"name\", \"contains\": \"test\""
+  },
+  {
+    "question": "What is the minimum role required to view Azure Policy compliance results in the Azure Portal?",
+    "answer": "The 'Reader' role is sufficient to view Azure Policy compliance results in the Azure Portal."
+  },
+  {
+    "question": "What Azure CLI command creates a Policy Initiative (Policy Set Definition)?",
+    "answer": "az policy set-definition create --name 'InitiativeName' --definitions 'initiative.json'"
+  },
+  {
+    "question": "In Azure Blueprints, what is the JSON property for defining parameter constraints like allowed values?",
+    "answer": "The 'allowedValues' property under parameters defines the list of allowed values for a blueprint parameter."
+  },
+  {
+    "question": "What is the REST API endpoint for retrieving all policy assignments for a specific subscription?",
+    "answer": "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policyAssignments?api-version=2020-09-01"
+  },
+  {
+    "question": "In Azure Policy, what effect takes precedence when multiple policies with different effects evaluate the same resource?",
+    "answer": "Deny takes precedence over all other effects. The order is: Disabled, Append/Modify, Deny, Audit/AuditIfNotExists/DeployIfNotExists."
+  },
+  {
+    "question": "What is the Azure PowerShell cmdlet to retrieve policy compliance details for a specific resource?",
+    "answer": "Get-AzPolicyState -ResourceId '/subscriptions/{sub}/resourceGroups/{rg}/providers/{rp}/{resource}'"
+  },
+  {
+    "question": "In Azure Blueprints, what is the system-assigned managed identity name format for blueprint assignments?",
+    "answer": "The format is: 'assign-{blueprintAssignmentName}' for the system-assigned managed identity."
+  },
+  {
+    "question": "What Azure Policy field alias is used to evaluate the SKU of a storage account?",
+    "answer": "The alias is 'Microsoft.Storage/storageAccounts/sku.name' for evaluating storage account SKU."
+  },
+  {
+    "question": "How many policy assignments can a single Azure resource be subject to?",
+    "answer": "There is no hard limit, but Azure recommends no more than 200 policy assignments per resource for performance reasons."
+  },
+  {
+    "question": "What is the JSON property name for specifying parameters in an Azure Policy definition?",
+    "answer": "The 'parameters' property is used in the policy definition JSON to define input parameters."
+  },
+  {
+    "question": "In Azure Blueprints, what permission is required to delete a blueprint assignment?",
+    "answer": "The 'Microsoft.Blueprint/blueprintAssignments/delete' permission is required, available in the Owner role at the assignment scope."
+  },
+  {
+    "question": "What Azure CLI command evaluates policy compliance for a specific policy assignment?",
+    "answer": "az policy state list --filter \"PolicyAssignmentId eq '/subscriptions/{sub}/providers/Microsoft.Authorization/policyAssignments/{assignmentName}'\""
+  },
+  {
+    "question": "In Azure Policy, what condition evaluates if a field value exists and is not empty?",
+    "answer": "Use the 'exists' condition with value 'true': \"field\": \"tags.Environment\", \"exists\": \"true\""
+  },
+  {
+    "question": "What is the maximum number of characters allowed for a Management Group ID?",
+    "answer": "Management Group IDs can be up to 90 characters long."
+  },
+  {
+    "question": "In Azure Blueprints, what property specifies the location where blueprint artifacts will be stored?",
+    "answer": "The 'location' property in the blueprint definition specifies where blueprint metadata and artifacts are stored."
+  },
+  {
+    "question": "What Azure Policy function converts a field value to lowercase for comparison?",
+    "answer": "The 'toLower' function converts field values to lowercase: \"value\": \"[toLower(field('name'))]\""
+  },
+  {
+    "question": "What is the PowerShell cmdlet to create a custom RBAC role for Blueprint Operator?",
+    "answer": "New-AzRoleDefinition -InputFile 'CustomBlueprintOperator.json'"
+  },
+  {
+    "question": "In Azure Policy, what is the field alias for evaluating VM size/SKU?",
+    "answer": "The alias is 'Microsoft.Compute/virtualMachines/hardwareProfile.vmSize' for VM size/SKU evaluation."
+  },
+  {
+    "question": "What REST API operation updates an existing blueprint definition?",
+    "answer": "PUT /subscriptions/{subscriptionId}/providers/Microsoft.Blueprint/blueprints/{blueprintName}?api-version=2018-11-01-preview"
+  },
+  {
+    "question": "In Azure Policy exemptions, what are the two valid exemption categories?",
+    "answer": "The two valid exemption categories are 'Waiver' (resource doesn't need to comply) and 'Mitigated' (compliance achieved through other means)."
+  },
+  {
+    "question": "What is the Azure CLI command to create a Management Group?",
+    "answer": "az account management-group create --name 'mgName' --display-name 'Management Group Display Name'"
+  },
+  {
+    "question": "In Azure Blueprints, what JSON property defines the order in which artifacts are deployed?",
+    "answer": "The 'dependsOn' property in artifact definitions specifies deployment order dependencies between artifacts."
+  }
+]

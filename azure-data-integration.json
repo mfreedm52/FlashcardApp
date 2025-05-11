@@ -1,0 +1,162 @@
+[
+  {
+    "question": "What is the maximum number of activities that can be included in a single Azure Data Factory pipeline?",
+    "answer": "A single Azure Data Factory pipeline can contain up to 40 activities."
+  },
+  {
+    "question": "In Azure Data Factory, what is the PowerShell cmdlet to create a new linked service?",
+    "answer": "New-AzDataFactoryV2LinkedService -ResourceGroupName '<rg>' -DataFactoryName '<df>' -LinkedServiceName '<ls>' -File '<json-file>'"
+  },
+  {
+    "question": "What is the REST API version used for Azure Data Factory V2 operations?",
+    "answer": "The REST API version is '2018-06-01' for Azure Data Factory V2 operations."
+  },
+  {
+    "question": "In Azure Data Factory, what is the property name for defining retry behavior in an activity?",
+    "answer": "The 'retry' property defines retry behavior, with child properties 'count' (max 10) and 'intervalInSeconds' (max 86400)."
+  },
+  {
+    "question": "What is the maximum size of a single dataset in Azure Data Factory?",
+    "answer": "A single dataset in Azure Data Factory can be up to 2 GB in size."
+  },
+  {
+    "question": "In Azure Synapse Analytics, what is the minimum number of DWUs (Data Warehouse Units) for a dedicated SQL pool?",
+    "answer": "The minimum number of DWUs for a dedicated SQL pool is DW100c (previously DW500)."
+  },
+  {
+    "question": "What Azure CLI command creates a new Azure Data Factory instance?",
+    "answer": "az datafactory factory create --factory-name 'MyFactory' --resource-group 'MyRG' --location 'eastus'"
+  },
+  {
+    "question": "In Azure Data Factory, what is the maximum number of integration runtimes that can be associated with a single data factory?",
+    "answer": "A single Azure Data Factory can have up to 8 integration runtimes."
+  },
+  {
+    "question": "What is the JSON property name for defining parameters in an Azure Data Factory pipeline?",
+    "answer": "The 'parameters' property is used at the pipeline level to define input parameters."
+  },
+  {
+    "question": "In Azure Stream Analytics, what is the maximum number of streaming units (SUs) that can be allocated to a job?",
+    "answer": "A Stream Analytics job can be allocated up to 396 streaming units (SUs)."
+  },
+  {
+    "question": "What is the PowerShell cmdlet to start an Azure Stream Analytics job?",
+    "answer": "Start-AzStreamAnalyticsJob -ResourceGroupName '<rg>' -Name '<job-name>' -OutputStartMode CustomTime"
+  },
+  {
+    "question": "In Azure Synapse Analytics, what is the SQL command to scale a dedicated SQL pool?",
+    "answer": "ALTER DATABASE [DatabaseName] MODIFY (SERVICE_OBJECTIVE = 'DW100c')"
+  },
+  {
+    "question": "What is the maximum retention period for Azure Data Factory pipeline run history?",
+    "answer": "Azure Data Factory retains pipeline run history for 45 days."
+  },
+  {
+    "question": "In Azure Data Factory, what is the trigger type for executing pipelines on a schedule?",
+    "answer": "The 'ScheduleTrigger' type is used for executing pipelines on a time-based schedule."
+  },
+  {
+    "question": "What is the REST API endpoint to list all pipelines in an Azure Data Factory?",
+    "answer": "GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/pipelines?api-version=2018-06-01"
+  },
+  {
+    "question": "In Azure Stream Analytics, what is the query function to join two input streams with a time window?",
+    "answer": "JOIN...ON...AND DATEDIFF(second, input1, input2) BETWEEN 0 AND 10"
+  },
+  {
+    "question": "What is the maximum number of concurrent pipeline runs allowed per Azure Data Factory subscription?",
+    "answer": "The maximum number of concurrent pipeline runs per subscription is 10,000."
+  },
+  {
+    "question": "In Azure Synapse Analytics, what is the system view to monitor query performance in dedicated SQL pools?",
+    "answer": "sys.dm_pdw_exec_requests provides query execution details including duration, resource usage, and status."
+  },
+  {
+    "question": "What Azure Data Factory activity is used to execute custom .NET code?",
+    "answer": "The 'Custom Activity' is used to execute custom .NET Framework code in Azure Batch."
+  },
+  {
+    "question": "In Azure Stream Analytics, what is the maximum lateness tolerance that can be configured for late arriving events?",
+    "answer": "The maximum lateness tolerance for late arriving events is 21 days."
+  },
+  {
+    "question": "What is the PowerShell cmdlet to create an Azure Synapse Analytics workspace?",
+    "answer": "New-AzSynapseWorkspace -ResourceGroupName '<rg>' -Name '<workspace-name>' -Location '<location>' -SqlAdministratorLoginName '<admin>' -SqlAdministratorLoginPassword '<password>'"
+  },
+  {
+    "question": "In Azure Data Factory, what is the maximum size for a single data movement activity?",
+    "answer": "A single data movement activity can process up to 1 TB of data per run."
+  },
+  {
+    "question": "What is the JSON property to define output in Azure Stream Analytics query?",
+    "answer": "INTO OutputAlias is used in the SELECT statement to define the output destination."
+  },
+  {
+    "question": "In Azure Synapse Analytics, what is the PowerShell cmdlet to create a new Apache Spark pool?",
+    "answer": "New-AzSynapseSparkPool -WorkspaceName '<workspace>' -Name '<pool>' -NodeSize Small -MinNodeCount 3 -MaxNodeCount 10"
+  },
+  {
+    "question": "What is the maximum number of triggers that can be associated with a single Azure Data Factory pipeline?",
+    "answer": "A single pipeline can be associated with up to 5 triggers."
+  },
+  {
+    "question": "In Azure Stream Analytics, what is the function to convert a Unix timestamp to datetime?",
+    "answer": "DATEADD(second, UnixTimestamp, '1970-01-01 00:00:00')"
+  },
+  {
+    "question": "What is the REST API endpoint to monitor Azure Data Factory pipeline runs?",
+    "answer": "GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/pipelineruns/{runId}?api-version=2018-06-01"
+  },
+  {
+    "question": "In Azure Synapse Analytics, what is the minimum disk size for a Spark pool node?",
+    "answer": "The minimum disk size for a Spark pool node is 80 GB."
+  },
+  {
+    "question": "What Azure Data Factory expression evaluates if a parameter value is null?",
+    "answer": "The expression is: @if(empty(parameters('ParamName')), 'true', 'false')"
+  },
+  {
+    "question": "In Azure Stream Analytics, what is the query syntax for tumbling window aggregation?",
+    "answer": "SELECT COUNT(*) FROM input GROUP BY TumblingWindow(second, 10)"
+  },
+  {
+    "question": "What is the maximum number of datasets that can be created in a single Azure Data Factory?",
+    "answer": "A single Azure Data Factory can contain up to 2,500 datasets."
+  },
+  {
+    "question": "In Azure Synapse Analytics, what is the SQL command to pause a dedicated SQL pool?",
+    "answer": "ALTER DATABASE [DatabaseName] PAUSE"
+  },
+  {
+    "question": "What Azure Data Factory system variable contains the current pipeline run ID?",
+    "answer": "@pipeline().RunId returns the current pipeline run unique identifier."
+  },
+  {
+    "question": "In Azure Stream Analytics, what is the maximum output delay allowed for a job?",
+    "answer": "The maximum output delay allowed is 1 minute."
+  },
+  {
+    "question": "What is the PowerShell cmdlet to create a new Azure Data Factory dataset?",
+    "answer": "Set-AzDataFactoryV2Dataset -ResourceGroupName '<rg>' -DataFactoryName '<df>' -Name '<dataset>' -File '<json-file>'"
+  },
+  {
+    "question": "In Azure Synapse Analytics, what is the view to check workload importance settings in SQL pools?",
+    "answer": "sys.workload_management_workload_classifiers shows workload importance and resource class settings."
+  },
+  {
+    "question": "What is the maximum execution timeout for an Azure Data Factory Copy activity?",
+    "answer": "The maximum execution timeout for a Copy activity is 7 days."
+  },
+  {
+    "question": "In Azure Stream Analytics, what is the function to generate row numbers in a query?",
+    "answer": "ROW_NUMBER() OVER (ORDER BY EventEnqueuedUtcTime)"
+  },
+  {
+    "question": "What Azure Data Factory activity type is used for data flow transformations?",
+    "answer": "The 'Mapping Data Flow' activity type is used for code-free data transformations with a visual designer."
+  },
+  {
+    "question": "In Azure Synapse Analytics, what is the maximum number of queries that can run concurrently in a dedicated SQL pool?",
+    "answer": "The maximum number of concurrent queries depends on the DWU level, ranging from 4 (DW100c) to 128 (DW30000c)."
+  }
+]
