@@ -34,7 +34,34 @@
         
         h1 {
             color: var(--primary-color);
-            margin-bottom: 30px;
+            margin-bottom: 10px;
+        }
+        
+        .category-selector {
+            margin: 20px 0;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .category-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background-color 0.3s;
+        }
+        
+        .category-btn:hover {
+            background-color: #2980b9;
+        }
+        
+        .category-btn.active {
+            background-color: var(--secondary-color);
         }
         
         .app-info {
@@ -145,10 +172,16 @@
 </head>
 <body>
     <div class="container">
-        <h1>AZ-305: Designing Microsoft Azure Infrastructure Solutions</h1>
+        <h1>Flashcard Study App</h1>
+        
+        <div class="category-selector">
+            <button class="category-btn active" data-filename="az305-flashcards.json" data-name="AZ-305: Azure">AZ-305</button>
+            <button class="category-btn" data-filename="sample-cards.json" data-name="Sample Questions">Sample</button>
+            <button class="category-btn" data-filename="flashData.json" data-name="General Knowledge">General</button>
+        </div>
         
         <div class="app-info">
-            <p>Study for your Azure Solutions Architect Expert certification with these flashcards. Click the card to flip between question and answer.</p>
+            <p>Study for your certification with these flashcards. Click the card to flip between question and answer.</p>
         </div>
         
         <div class="flashcard-container">
@@ -189,6 +222,7 @@
         // Flashcard data and state
         let flashcards = [];
         let currentCardIndex = 0;
+        let currentSetName = '';
         
         // Functions
         function loadFlashcards(cards) {
@@ -208,8 +242,8 @@
             }
             
             const card = flashcards[currentCardIndex];
-            questionElement.textContent = card.question;
-            answerElement.textContent = card.answer;
+            questionElement.textContent = card.question || card.front || '';
+            answerElement.textContent = card.answer || card.back || '';
             currentCardElement.textContent = currentCardIndex + 1;
             
             // Reset card to question side when changing cards
@@ -261,11 +295,13 @@
             }
         }
         
-        // Function to load JSON data from file
-        async function loadFlashcardsFromFile() {
+        // Load a specific flashcard set
+        async function loadFlashcardSet(filename, setName) {
             try {
+                questionElement.textContent = 'Loading...';
+                
                 // Use fetch API to load the file
-                const response = await fetch('az305-flashcards.json');
+                const response = await fetch(filename);
                 
                 // Check if the request was successful
                 if (!response.ok) {
@@ -277,8 +313,15 @@
                 
                 // Check if data is valid
                 if (Array.isArray(data) && data.length > 0) {
-                    console.log(`Loaded ${data.length} flashcards successfully`);
+                    console.log(`Loaded ${data.length} flashcards from ${setName}`);
+                    currentSetName = setName;
                     loadFlashcards(data);
+                    
+                    // Update UI
+                    document.querySelector('.app-info p').innerHTML = `
+                        Studying: <strong>${setName}</strong><br>
+                        Click the card to flip between question and answer.
+                    `;
                 } else {
                     throw new Error('Invalid flashcard data format');
                 }
@@ -294,14 +337,38 @@
         nextBtn.addEventListener('click', showNextCard);
         flipBtn.addEventListener('click', flipCard);
         
-        // Initialize the app
-        document.addEventListener('DOMContentLoaded', function() {
-            loadFlashcardsFromFile();
+        // Category button event listeners
+        document.querySelectorAll('.category-btn').forEach(button => {
+            button.addEventListener('click', async () => {
+                // Update active button styling
+                document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                
+                // Load the selected set
+                const filename = button.dataset.filename;
+                const setName = button.dataset.name;
+                await loadFlashcardSet(filename, setName);
+            });
+        });
+        
+        // Initialize the app with the default (first) set
+        document.addEventListener('DOMContentLoaded', async function() {
+            const defaultButton = document.querySelector('.category-btn.active');
+            if (defaultButton) {
+                const filename = defaultButton.dataset.filename;
+                const setName = defaultButton.dataset.name;
+                await loadFlashcardSet(filename, setName);
+            }
         });
         
         // Also initialize if DOM is already loaded
         if (document.readyState === 'complete' || document.readyState === 'interactive') {
-            loadFlashcardsFromFile();
+            const defaultButton = document.querySelector('.category-btn.active');
+            if (defaultButton) {
+                const filename = defaultButton.dataset.filename;
+                const setName = defaultButton.dataset.name;
+                loadFlashcardSet(filename, setName);
+            }
         }
     </script>
 </body>
